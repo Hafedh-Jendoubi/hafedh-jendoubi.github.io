@@ -58,16 +58,41 @@ h3{margin:0;font-size:1.05rem;font-weight:600}
 footer{text-align:center;color:var(--muted);font-size:.84rem;padding:28px 0 40px;border-top:1px solid var(--line);margin-top:72px}
 @media(max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:48px}.photo{justify-self:start;width:200px;height:200px;order:-1}
  nav ul li:not(:last-child){display:none}.skills{grid-template-columns:1fr;gap:2px}.skills dd{margin-bottom:10px}}
+.section-guide{display:none}
+@media(min-width:1240px){
+ .section-guide{display:block;position:fixed;top:50%;left:clamp(12px,calc((100vw - 1250px)/2),80px);z-index:9;width:130px;transform:translateY(-50%)}
+ .section-guide__track{position:absolute;top:16px;bottom:16px;left:11px;width:2px;background:var(--line)}
+ .section-guide__progress{display:block;width:100%;height:100%;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .15s ease-out}
+ .section-guide ul{display:grid;gap:8px;list-style:none;margin:0;padding:0}
+ .section-guide a{position:relative;display:flex;align-items:center;min-height:32px;padding-left:28px;color:var(--muted);font-size:.8rem;font-weight:500;white-space:nowrap}
+ .section-guide a:hover,.section-guide a.is-active{color:var(--text);text-decoration:none}
+ .section-guide a.is-active{font-weight:700}
+ .section-guide a::before{position:absolute;left:5px;width:12px;height:12px;border:1px solid var(--muted);border-radius:50%;background:var(--bg);content:""}
+ .section-guide a.is-active::before{border-color:var(--accent);background:var(--accent);box-shadow:0 0 0 3px var(--bg)}
+ .section-guide a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+}
 </style>
 </head>
 <body>
 <nav><div class="wrap">
 <a class="logo" href="#top"><b>&lt;</b>hj<b>/&gt;</b></a>
 <ul>
-<li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li>
+<li><a href="#education">Education</a></li><li><a href="#experience">Experience</a></li>
 <li><a href="#projects">Projects</a></li><li><a href="#skills">Skills</a></li><li><a href="#contact">Contact</a></li>
 <li><button id="theme" aria-label="Toggle light/dark theme">Theme</button></li>
 </ul></div></nav>
+
+<nav class="section-guide" aria-label="Page sections">
+<div class="section-guide__track" aria-hidden="true"><span class="section-guide__progress"></span></div>
+<ul>
+<li><a href="#top" class="is-active" aria-current="location">Home</a></li>
+<li><a href="#education">Education</a></li>
+<li><a href="#experience">Experience</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
 
 <main class="wrap" id="top">
 <header class="hero">
@@ -85,19 +110,12 @@ footer{text-align:center;color:var(--muted);font-size:.84rem;padding:28px 0 40px
 <div class="photo"><div class="ph">HJ</div><img src="profile.jpg" alt="Portrait of Hafedh Jendoubi" onerror="this.style.display='none'"></div>
 </header>
 
-<section id="about">
-<h2><span>01 / about</span>About me</h2>
-<div class="card about">
-<p>I’m a Software Engineering graduate of ESPRIT, one of Tunisia’s leading engineering schools, where I completed my Engineering Degree in Computer Science (2021–2026) with “Excellent” honors. Over the past few years I’ve moved from classroom projects to production-style systems, working across the MERN, Django and Spring Boot ecosystems.</p>
-<p>My strongest work sits at the intersection of backend architecture and applied AI: Spring Boot microservices communicating through Kafka, search powered by Elasticsearch, caching with Redis, and Python services (FastAPI, Flask) that bring NLP chatbots and data analysis into real products. I care just as much about how software ships, so I automate builds, quality checks and deployments with Docker, GitHub Actions, Jenkins and SonarQube.</p>
-<p>I’ve worked independently and with clients, translating requirements into working features and measurable improvements, from cutting API latency to improving mobile usability. I’m comfortable in Linux-based environments and Agile teams, and I’m looking for a software engineering role where I can keep building reliable products and growing alongside experienced engineers.</p>
-<div class="facts">
-<div><b>ESPRIT</b>Engineering Degree, 2026</div>
-<div><b>Java · Python</b>Primary languages</div>
-<div><b>Microservices</b>Spring Boot, Kafka, Docker</div>
-<div><b>Ar · En · Fr</b>Native / Professional</div>
-</div>
-</div>
+
+<section id="education">
+<h2><span>01 / education</span>Education</h2>
+<div class="card"><h3>Engineering Degree in Computer Science</h3>
+<div class="meta">ESPRIT — Private Higher School of Engineering and Technology, Ariana · 2021 – 2026</div>
+<p>Academic honors: Excellent</p></div>
 </section>
 
 <section id="experience">
@@ -167,15 +185,8 @@ footer{text-align:center;color:var(--muted);font-size:.84rem;padding:28px 0 40px
 </dl></div>
 </section>
 
-<section>
-<h2><span>05 / education</span>Education</h2>
-<div class="card"><h3>Engineering Degree in Computer Science</h3>
-<div class="meta">ESPRIT — Private Higher School of Engineering and Technology, Ariana · 2021 – 2026</div>
-<p>Academic honors: Excellent</p></div>
-</section>
-
 <section id="contact" class="contact">
-<h2><span>06 / contact</span>Let’s work together</h2>
+<h2><span>05 / contact</span>Let’s work together</h2>
 <p>I’m open to software engineering opportunities and freelance projects. Feel free to reach out.</p>
 <div class="btns" style="justify-content:center">
 <a class="btn p" href="mailto:hafedh.jendoubi.work@gmail.com">Email me</a>
@@ -195,6 +206,38 @@ document.getElementById('theme').onclick=function(){
   var dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
   r.dataset.theme=dark?'light':'dark';
 };
+var sectionLinks=document.querySelectorAll('.section-guide a');
+var sectionProgress=document.querySelector('.section-guide__progress');
+function updateSectionGuide(){
+  var marker=window.scrollY+window.innerHeight*.35;
+  var active=0;
+  for(var i=1;i<sectionLinks.length;i++){
+    var section=document.querySelector(sectionLinks[i].getAttribute('href'));
+    if(section&&section.getBoundingClientRect().top+window.scrollY<=marker) active=i;
+    else break;
+  }
+  var progress=active/(sectionLinks.length-1);
+  if(active<sectionLinks.length-1){
+    var current=document.querySelector(sectionLinks[active].getAttribute('href'));
+    var next=document.querySelector(sectionLinks[active+1].getAttribute('href'));
+    var start=current.getBoundingClientRect().top+window.scrollY;
+    var end=next.getBoundingClientRect().top+window.scrollY;
+    if(end>start) progress=(active+Math.max(0,Math.min(1,(marker-start)/(end-start))))/(sectionLinks.length-1);
+  }
+  sectionProgress.style.transform='scaleY('+progress+')';
+  for(var j=0;j<sectionLinks.length;j++){
+    if(j===active){
+      sectionLinks[j].classList.add('is-active');
+      sectionLinks[j].setAttribute('aria-current','location');
+    }else{
+      sectionLinks[j].classList.remove('is-active');
+      sectionLinks[j].removeAttribute('aria-current');
+    }
+  }
+}
+window.addEventListener('scroll',updateSectionGuide,{passive:true});
+window.addEventListener('resize',updateSectionGuide);
+updateSectionGuide();
 </script>
 </body>
 </html>
